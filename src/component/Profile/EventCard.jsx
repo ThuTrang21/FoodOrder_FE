@@ -24,7 +24,7 @@ export const EventCard = () => {
                 <DeleteIcon/>
             </IconButton>
         </CardActions>}
-       
+       <p>sfsdfsdf</p>
       </Card>
     </div>
   );
