@@ -3,21 +3,21 @@ import './App.css';
 import { ThemeProvider } from '@emotion/react';
 import { darkTheme } from './Theme/DarkTheme';
 import { CssBaseline } from '@mui/material';
-import Navbar from './component/Navbar/Navbar';
-import Home from './component/Home/Home';
-import RestaurantDetail from './component/Restaurant/RestaurantDetail';
-import Cart from './component/Cart/Cart';
-import Profile from './component/Profile/Profile';
 import { CustomerRoute } from './Routers/CustomerRoute';
+import { useEffect } from 'react';
+import { getUser } from './State/Authentidation/Action';
+import { useDispatch, useSelector } from 'react-redux';
 function App() {
+  const dispatch=useDispatch()
+  const jwt=localStorage.getItem("jwt")
+  const {auth}=useSelector((store)=>store);
+  useEffect (()=>{
+    dispatch(getUser(auth.jwt || jwt))
+  },[auth.jwt]);
   return (
     <ThemeProvider theme={darkTheme}>
       <CssBaseline></CssBaseline>
-      {/* <Navbar></Navbar> */}
-      {/* <Home></Home> */}
-      {/* <RestaurantDetail></RestaurantDetail> */}
-      {/* <Cart></Cart> */}
-      {/* <Profile></Profile> */}
+ 
       <CustomerRoute/>
     </ThemeProvider>
   );
