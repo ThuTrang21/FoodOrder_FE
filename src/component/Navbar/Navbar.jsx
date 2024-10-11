@@ -7,7 +7,7 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { useNavigate } from "react-router-dom";
 import { useSelector } from "react-redux";
 export default function Navbar() {
-  const {auth}=useSelector((store)=>store)
+  const {auth, cart}=useSelector((store)=>store)
   const navigate=useNavigate()
 
   const handleAvatarClick=()=>{
@@ -49,8 +49,8 @@ export default function Navbar() {
           )}
         </div>
         <div className="">
-          <IconButton>
-            <Badge color="primary" badgeContent={3}>
+          <IconButton onClick={()=>navigate("/cart")}>
+            <Badge color="primary" badgeContent={cart.cart?.item.length}>
               <ShoppingCartIcon
                 sx={{ color: "black", fontSize: "1.5rem" }}
               ></ShoppingCartIcon>

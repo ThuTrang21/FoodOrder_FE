@@ -30,15 +30,34 @@ export const getMenuItemsByRestaurantId = (reqData) => {
                     Authorization: `Bearer ${reqData.jwt}`
                 }
             });
-            console.log("Menu item by restaurants: ", data);
-            dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_SUCCESS, payload: data })
+            
+
+
+            // Lọc món ăn theo các điều kiện
+            const filteredMenuItems = data.filter(item => {
+                // Nếu vegetarian được chọn và món ăn không phải là chay
+                if (reqData.vegetarian && !item.vegetarian) return false; 
+                // Nếu non-vegetarian được chọn và món ăn là chay
+                if (reqData.nonveg && item.vegetarian) return false; 
+                // Nếu seasonal được chọn và món ăn không phải là món theo mùa
+                if (reqData.seasonal && !item.seasonal) return false; 
+                return true; // Nếu không có điều kiện nào bị loại
+            });
+
+            // Log các món ăn đã được lọc
+            console.log("Filtered menu items based on food type: ", filteredMenuItems);
+
+            // Dispatch danh sách món ăn đã được lọc
+            dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_SUCCESS, payload: filteredMenuItems });
 
         } catch (error) {
-            console.log("error", error);
-            dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE , payload:error})
+            console.log("catch error", error);
+            dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE, payload: error });
         }
     };
 };
+
+
 
 export const searchMenuItem = ({keyword,jwt}) => {
     return async (dispatch) => {
