@@ -146,7 +146,7 @@ export const CreateRestaurantForm = () => {
                 fullWidth
                 id="cusineType"
                 name="cusineType"
-                label="CusineType"
+                label="Cusine Type"
                 variant="outlined"
                 onChange={formik.handleChange}
                 value={formik.values.cusineType}
