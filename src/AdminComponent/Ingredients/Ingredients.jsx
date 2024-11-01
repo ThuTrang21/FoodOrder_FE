@@ -6,7 +6,7 @@ import { IngredientsCategoryTable } from './IngredientsCategoryTable'
 export const Ingredients = () => {
   return (
     <div>
-      <Grid container spacing={2}>
+      <Grid container spacing={2} className='px-2'>
         <Grid item xs={12} lg={8}>
           <IngredientsTable/>
         </Grid>

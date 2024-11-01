@@ -49,7 +49,8 @@ if (isSmallScreen) {
      
       <div className="fixed top-2 left-4 p-2 z-50">
           {!open && (
-            <IconButton onClick={toggleDrawer} className="absolute z-50">
+            <IconButton onClick={toggleDrawer}
+            className={`absolute z-50 ${!open ? 'block' : 'hidden'}`}>
               <MenuIcon />
             </IconButton>
           )}
@@ -60,17 +61,17 @@ if (isSmallScreen) {
          open={open} 
          anchor="left"
          variant={isSmallScreen ? "temporary" : "persistent"} 
-         sx={{ zIndex: 1 }}
+         sx={{ zIndex: 1}}
         >
-            <div className="flex justify-end p-4">
+            <div className="flex justify-end pt-2">
           <IconButton onClick={toggleDrawer}>
             <CloseIcon /> 
           </IconButton>
         </div>
-          <div className="w-[70vw] lg:w-[20vw] h-screen flex flex-col justify-center text-xl space-y-[1.65rem]">
+          <div className="w-[70vw] lg:w-[20vw] h-screen flex flex-col justify-center space-y-[1.2rem]">
             {menu.map((item,i) => (
               <>
-                <div onClick={()=>handleNavigate(item)} className="px-5 flex items-center gap-5 cursor-pointer">
+                <div onClick={()=>handleNavigate(item)} className="px-5 flex items-center gap-5 cursor-pointer text-sm">
                   {item.icon}
                   <span>{item.title}</span>
                 </div>
