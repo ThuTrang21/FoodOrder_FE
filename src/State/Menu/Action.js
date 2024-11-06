@@ -23,39 +23,31 @@ export const createMenuItems = ({ menu, jwt }) => {
 
 export const getMenuItemsByRestaurantId = (reqData) => {
     return async (dispatch) => {
-        dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST });
-        try {
-            const { data } = await api.get(`/api/food/restaurant/${reqData.restaurantId}?vegetarian=${reqData.vegetarian}&nonveg=${reqData.nonveg}&seasonal=${reqData.seasonal}&food_category=${reqData.foodCategory}`, {
-                headers: {
-                    Authorization: `Bearer ${reqData.jwt}`
-                }
-            });
-            
-
-
-            // Lọc món ăn theo các điều kiện
-            const filteredMenuItems = data.filter(item => {
-                // Nếu vegetarian được chọn và món ăn không phải là chay
-                if (reqData.vegetarian && !item.vegetarian) return false; 
-                // Nếu non-vegetarian được chọn và món ăn là chay
-                if (reqData.nonveg && item.vegetarian) return false; 
-                // Nếu seasonal được chọn và món ăn không phải là món theo mùa
-                if (reqData.seasonal && !item.seasonal) return false; 
-                return true; // Nếu không có điều kiện nào bị loại
-            });
-
-            // Log các món ăn đã được lọc
-            console.log("Filtered menu items based on food type: ", filteredMenuItems);
-
-            // Dispatch danh sách món ăn đã được lọc
-            dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_SUCCESS, payload: filteredMenuItems });
-
-        } catch (error) {
-            console.log("catch error", error);
-            dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE, payload: error });
-        }
+      dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_REQUEST });
+      try {
+        const { data } = await api.get(
+          `/api/food/restaurant/${reqData.restaurantId}`, 
+          {
+            params: {
+              vegetarian: reqData.vegetarian || undefined,
+              nonveg: reqData.nonveg || undefined,
+              seasonal: reqData.seasonal || undefined,
+              food_category: reqData.foodCategory || undefined,
+            },
+            headers: {
+              Authorization: `Bearer ${reqData.jwt}`,
+            },
+          }
+        );
+  
+        dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_SUCCESS, payload: data });
+      } catch (error) {
+        console.log("catch error", error);
+        dispatch({ type: GET_MENU_ITEMS_BY_RESTAURANT_ID_FAILURE, payload: error });
+      }
     };
-};
+  };
+  
 
 
 

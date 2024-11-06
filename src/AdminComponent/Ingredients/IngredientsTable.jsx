@@ -1,33 +1,65 @@
-import { Box, Card, CardHeader, IconButton, Modal, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import React from "react";
-import CreateIcon from '@mui/icons-material/Create';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  Box,
+  Button,
+  Card,
+  CardHeader,
+  IconButton,
+  Modal,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import React, { useEffect } from "react";
+import CreateIcon from "@mui/icons-material/Create";
 import FormIngredients from "./FormIngredients";
-const orders=[1,1,1,1]
+import { useDispatch, useSelector } from "react-redux";
+import {
+  getIngredientsOfRestaurant,
+  updateStockOfIngedient,
+} from "../../State/Ingredients/Action";
+const orders = [1, 1, 1, 1];
 const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
+  position: "absolute",
+  top: "50%",
+  left: "50%",
+  transform: "translate(-50%, -50%)",
   width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
+  bgcolor: "background.paper",
+  border: "2px solid #000",
   boxShadow: 24,
   p: 4,
 };
 export const IngredientsTable = () => {
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { restaurant, ingredients } = useSelector((store) => store);
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+  useEffect(() => {
+    dispatch(
+      getIngredientsOfRestaurant({ jwt, id: restaurant.usersRestaurant.id })
+    );
+  }, []);
+
+  const handleUpdateStoke = (id) => {
+    dispatch(updateStockOfIngedient({ id, jwt }));
+  };
+
   return (
     <Box>
       <Card className="mt-1">
         <CardHeader
           title={"Ingredients"}
-          sx={{ pt: 2, alignItems: "center", pl:10 }}
+          sx={{ pt: 2, alignItems: "center", pl: 10 }}
           action={
             <IconButton onClick={handleOpen} aria-label="settings">
-              < CreateIcon/>
+              <CreateIcon />
             </IconButton>
           }
         ></CardHeader>
@@ -35,7 +67,6 @@ export const IngredientsTable = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-    
                 <TableCell align="left">Id</TableCell>
                 <TableCell align="right">Name</TableCell>
                 <TableCell align="right">Category</TableCell>
@@ -43,17 +74,24 @@ export const IngredientsTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((row) => (
+              {ingredients.ingredients.map((item) => (
                 <TableRow
-                  key={row.name}
+                  key={item.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {1}
+                    {item.id}
                   </TableCell>
-                  <TableCell align="right">{"image"}</TableCell>
-                  <TableCell align="right">{"thut15794@gmail.com"}</TableCell>
-                  <TableCell align="right">{"price"}</TableCell>                </TableRow>
+                  <TableCell align="right">{item.name}</TableCell>
+                  <TableCell align="right">{item.category.name}</TableCell>
+                  <TableCell align="right">
+                    {
+                      <Button onClick={() => handleUpdateStoke(item.id)}>
+                        {item.inStock? "in_stoke" : "out_of_stoke"}
+                      </Button>
+                    }
+                  </TableCell>{" "}
+                </TableRow>
               ))}
             </TableBody>
           </Table>
@@ -66,7 +104,7 @@ export const IngredientsTable = () => {
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-         <FormIngredients/>
+          <FormIngredients />
         </Box>
       </Modal>
     </Box>

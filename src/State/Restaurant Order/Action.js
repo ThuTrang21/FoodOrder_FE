@@ -5,12 +5,13 @@ export const updateOrderStatus=({orderId, orderStatus,jwt})=>{
         try {
             dispatch({type: UPDATE_ORDER_STATUS_REQUEST})
        const response=await api.put(
-        `/api/admin/orders/${orderId}/${orderStatus}`,{},{
+        `/api/admin/order/${orderId}/${orderStatus}`,{},{
             headers:{
                 Authorization: `Bearer ${jwt}`
             }
         }
        );
+       console.log("id-----",orderId)
        console.log("Updated order ", response.data);
        dispatch({type: UPDATE_ORDER_STATUS_SUCCESS, payload: response.data});
         } catch (error) {

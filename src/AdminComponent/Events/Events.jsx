@@ -2,6 +2,7 @@ import { Box, Button, Modal } from '@mui/material'
 import React from 'react'
 import CreateEvent from './CreateEvent';
 import { EventCard } from '../../component/Profile/EventCard';
+import { useDispatch, useSelector } from 'react-redux';
 const style = {
   position: 'absolute',
   top: '70%', // Thay đổi vị trí cho hợp lý
@@ -20,6 +21,8 @@ export const Events = ({ sidebarOpen }) => {
   const [open, setOpen] = React.useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+
+ 
   return(
     <div>
       <div className='p-5'>

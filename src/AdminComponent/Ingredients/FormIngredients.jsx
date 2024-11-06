@@ -1,29 +1,40 @@
-import { Button, FormControl, InputLabel, MenuItem, Select, TextField } from '@mui/material'
-import React, { useState } from 'react'
+import {
+  Button,
+  FormControl,
+  InputLabel,
+  MenuItem,
+  Select,
+  TextField,
+} from "@mui/material";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { createIngredient } from "../../State/Ingredients/Action";
 
 const FormIngredients = () => {
+  const dispatch = useDispatch();
+  const jwt=localStorage.getItem("jwt")
+  const {restaurant,ingredients}=useSelector(store=>store)
   const [formData, setFormData] = useState({
-    name:"",
-    ingredientCategoryId:""
+    name: "",
+    categoryId: "",
   });
-  const handleSubmit = () => {
-const data={
-    name:formData.categoryName,
-    restaurantId:{
-        id:1,
-
-    },
-};
-console.log(data)
-
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    const data = {
+      ...formData,
+      restaurantId: restaurant.usersRestaurant.id
+    };
+     dispatch(createIngredient({data,jwt}))
   };
-  const handleInputChange=(e)=>{
-    const {name,value}=e.target
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
     setFormData({
-        ...formData,[name]:value
-    })
-  }
-  
+      ...formData,
+      [name]: value,
+    });
+    
+  };
+
   return (
     <div className="">
       <div className="p-5">
@@ -31,33 +42,32 @@ console.log(data)
           Create Ingredients
         </h1>
         <form onSubmit={handleSubmit} className="space-y-5">
+          
+          <FormControl fullWidth>
+            <InputLabel id="demo-controlled-open-select-label">
+              Category
+            </InputLabel>
+            <Select
+              labelId="demo-controlled-open-select-label"
+              id="categoryId"
+              value={formData.categoryId}
+              label="Category"
+              onChange={handleInputChange}
+              name="categoryId"
+            >
+             {ingredients.category.map((item)=><MenuItem value={item.id}>{item.name}</MenuItem>) }
+            </Select>
+          </FormControl>
           <TextField
             fullWidth
-            id="ingredient"
-            name="ingredient"
-            label="Ingredient"
+            id="name"
+            name="name"
+            label="Name Ingredient"
             variant="outlined"
             onChange={handleInputChange}
             value={formData.name}
           ></TextField>
-          <FormControl fullWidth>
-                <InputLabel id="demo-controlled-open-select-label">
-                  Category
-                </InputLabel>
-                <Select
-                  labelId="demo-controlled-open-select-label"
-                  id="ingredientCategoryId"
-                  value={formData.ingredientCategoryId}
-                  label="Category"
-                  onChange={handleInputChange}
-                  name="ingredientCategoryId"
-                >
-                  
-                  <MenuItem value={true}>Yes</MenuItem>
-                  <MenuItem value={false}>No</MenuItem>
-                </Select>
-              </FormControl>
-           <Button
+          <Button
             className="mt-4"
             variant="contained"
             color="primary"
@@ -68,7 +78,7 @@ console.log(data)
         </form>
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default FormIngredients
+export default FormIngredients;

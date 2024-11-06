@@ -10,11 +10,16 @@ import React, { useState } from "react";
 import CloseIcon from "@mui/icons-material/Close";
 import AddPhotoAlternateIcon from "@mui/icons-material/AddPhotoAlternate";
 import { uploadImageToCloud } from "../../util/UploadToCloudinary";
+import { useDispatch } from "react-redux";
+import { createRestaurant } from "../../State/Restaurant/Action";
 export const CreateRestaurantForm = () => {
+  
+  const dispatch=useDispatch();
+  const jwt= localStorage.getItem("jwt");
   const initialValues = {
     name: "",
     description: "",
-    cusineType: "",
+    cuisineType: "",
     streetAddress: "",
     city: "",
     stateProvince: "",
@@ -34,12 +39,12 @@ export const CreateRestaurantForm = () => {
       const data = {
         name: values.name,
         description: values.description,
-        cusineType: values.cusineType,
+        cuisineType: values.cuisineType,
         address: {
           streetAddress: values.streetAddress,
           city: values.city,
           stateProvince: values.stateProvince,
-          potalCode: values.potalCode,
+          postalCode: values.postalCode,
           country: values.country,
         },
         contactInformation: {
@@ -52,6 +57,7 @@ export const CreateRestaurantForm = () => {
         images: values.images,
       };
       console.log("data-------  ", data);
+      dispatch(createRestaurant({ data, token: jwt }));
     },
   });
   const handleImageChange = async (e) => {
@@ -144,12 +150,12 @@ export const CreateRestaurantForm = () => {
             <Grid item xs={12} lg="6">
               <TextField
                 fullWidth
-                id="cusineType"
-                name="cusineType"
-                label="Cusine Type"
+                id="cuisineType"
+                name="cuisineType"
+                label="Cuisine Type"
                 variant="outlined"
                 onChange={formik.handleChange}
-                value={formik.values.cusineType}
+                value={formik.values.cuisineType}
               ></TextField>
             </Grid>
             <Grid item xs={12} lg="6">
@@ -199,12 +205,12 @@ export const CreateRestaurantForm = () => {
             <Grid item xs={12} lg="4">
               <TextField
                 fullWidth
-                id="potalCode"
-                name="potalCode"
-                label="Potal Code"
+                id="postalCode"
+                name="postalCode"
+                label="Postal Code"
                 variant="outlined"
                 onChange={formik.handleChange}
-                value={formik.values.potalCode}
+                value={formik.values.postalCode}
               ></TextField>
             </Grid>
             <Grid item xs={12}>

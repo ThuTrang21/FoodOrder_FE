@@ -14,8 +14,6 @@ export default function Navbar() {
   const handleAvatarClick = () => {
     if (auth.user?.role === "ROLE_CUSTOMER") {
       navigate("/my-profile");
-    } else {
-      navigate("/admin/restaurant");
     }
   };
 

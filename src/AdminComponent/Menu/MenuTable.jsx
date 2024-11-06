@@ -1,20 +1,65 @@
-import { Box, Card, CardHeader, IconButton, Paper, Table, TableBody, TableCell, TableContainer, TableHead, TableRow } from "@mui/material";
-import React from "react";
-import CreateIcon from '@mui/icons-material/Create';
-import DeleteIcon from '@mui/icons-material/Delete';
+import {
+  Avatar,
+  Box,
+  Card,
+  CardHeader,
+  Chip,
+  IconButton,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
+import React, { useEffect } from "react";
+import CreateIcon from "@mui/icons-material/Create";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { useNavigate } from "react-router-dom";
-const orders=[1,1,1,1]
+import { useDispatch, useSelector } from "react-redux";
+import {
+  deleteFoodAction,
+  getMenuItemsByRestaurantId,
+} from "../../State/Menu/Action";
+
 export const MenuTable = () => {
-  const navigate=useNavigate()
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { restaurant, menu } = useSelector((store) => store);
+  const navigate = useNavigate();
+
+  const handleDeleteFood = (foodId) => {
+    dispatch(deleteFoodAction({ foodId, jwt }));
+  };
+
+  useEffect(() => {
+    dispatch(
+      getMenuItemsByRestaurantId({
+        jwt,
+        restaurantId: restaurant.usersRestaurant.id,
+        vegetarian: false,
+        nonveg: false,
+        seasonal: false,
+        foodCategory: "",
+      })
+    );
+
+    console.log("menu: ", menu);
+  }, []);
+
   return (
     <Box>
       <Card className="mt-1">
         <CardHeader
           title={"All Menu Items"}
-          sx={{ pt: 2, alignItems: "center", pl:10 }}
+          sx={{ pt: 2, alignItems: "center", pl: 10 }}
           action={
-            <IconButton onClick={()=>navigate("/admin/restaurants/add-menu")} aria-label="settings">
-              < CreateIcon/>
+            <IconButton
+              onClick={() => navigate("/admin/restaurants/add-menu")}
+              aria-label="settings"
+            >
+              <CreateIcon />
             </IconButton>
           }
         ></CardHeader>
@@ -22,7 +67,6 @@ export const MenuTable = () => {
           <Table sx={{ minWidth: 650 }} aria-label="simple table">
             <TableHead>
               <TableRow>
-    
                 <TableCell align="left">Image</TableCell>
                 <TableCell align="right">Title</TableCell>
                 <TableCell align="right">Ingredients</TableCell>
@@ -32,19 +76,29 @@ export const MenuTable = () => {
               </TableRow>
             </TableHead>
             <TableBody>
-              {orders.map((row) => (
+              {menu.menuItems.map((item) => (
                 <TableRow
-                  key={row.name}
+                  key={item.id}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}
                 >
                   <TableCell component="th" scope="row">
-                    {1}
+                    <Avatar src={item.images} />
                   </TableCell>
-                  <TableCell align="right">{"image"}</TableCell>
-                  <TableCell align="right">{"thut15794@gmail.com"}</TableCell>
-                  <TableCell align="right">{"price"}</TableCell>
-                  <TableCell align="right">{"pizza"}</TableCell>
-                  <TableCell align="right"><IconButton><DeleteIcon/></IconButton></TableCell>
+                  <TableCell align="right">{item.name}</TableCell>
+                  <TableCell align="right">
+                    {item.ingredients.map((ingr) => (
+                      <Chip label={ingr.name} />
+                    ))}
+                  </TableCell>
+                  <TableCell align="right">${item.price}</TableCell>
+                  <TableCell align="right">
+                    {item.available ? "in_stoke" : "out_of_stoke"}
+                  </TableCell>
+                  <TableCell align="right">
+                    <IconButton onClick={() => handleDeleteFood(item.id)}>
+                      <DeleteIcon />
+                    </IconButton>
+                  </TableCell>
                 </TableRow>
               ))}
             </TableBody>

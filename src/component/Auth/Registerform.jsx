@@ -68,7 +68,7 @@ export const Registerform = () => {
               // onChange={handleChange}
             >
               <MenuItem value={"ROLE_CUSTOMER"}>Customer</MenuItem>
-              <MenuItem value={"ROLE_RESTAURANT"}>Restaurant</MenuItem>
+              <MenuItem value={"ROLE_RESTAURANT_OWNER"}>Restaurant</MenuItem>
             </Field>
 
           <Button

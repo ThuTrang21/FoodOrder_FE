@@ -50,6 +50,7 @@ export const getRestaurantByUserId = (jwt) => {
             dispatch({ type: GET_RESTAURANT_BY_USER_ID_SUCCESS, payload: data });
 
         } catch (error) {
+          
             dispatch({ type: GET_RESTAURANT_BY_USER_ID_FAILURE, payload: error });
             console.log("error", error);
         }

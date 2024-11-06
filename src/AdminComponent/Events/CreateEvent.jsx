@@ -3,20 +3,37 @@ import { DateTimePicker, LocalizationProvider } from "@mui/x-date-pickers";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import dayjs from "dayjs";
 import React, { useState } from "react";
-
+import { useDispatch, useSelector } from "react-redux";
+import { createEventAction } from "../../State/Restaurant/Action";
+const initialValues = {
+  image: "",
+  location: "",
+  name: "",
+  startedAt: null,
+  endsAt: null,
+};
 
 const CreateEvent = () => {
+  const dispatch = useDispatch();
+  const jwt = localStorage.getItem("jwt");
+  const { restaurant, menu } = useSelector((store) => store);
+
+  const [formValues, setFormValues] = useState(initialValues);
+
+
   const handleSubmit = (e) => {
     e.preventDefault();
+    dispatch(
+      createEventAction({
+        data: formValues,
+        restaurantId: restaurant.usersRestaurant?.id,
+      jwt
+      
+      })
+    );
     console.log(formValues);
+    setFormValues(initialValues);
   };
-  const [formValues, setFormValues] = useState({
-    image: "",
-    location: "",
-    name: "",
-    startedAt: null,
-    endsAt: null,
-  });
   const handleFormChange = (e) => {
     setFormValues({
       ...formValues,
@@ -33,9 +50,7 @@ const CreateEvent = () => {
 
   return (
     <div>
-      <form onSubmit={handleSubmit}
-      className="space-y-4"
-      >
+      <form onSubmit={handleSubmit} className="space-y-4">
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
@@ -58,7 +73,7 @@ const CreateEvent = () => {
               variant="outlined"
               onChange={handleFormChange}
               value={formValues.name}
-               size="small"
+              size="small"
             ></TextField>
           </Grid>
           <Grid item xs={6}>
@@ -70,14 +85,14 @@ const CreateEvent = () => {
               variant="outlined"
               onChange={handleFormChange}
               value={formValues.location}
-               size="small"
+              size="small"
             />
           </Grid>
-          
+
           <Grid item xs={6}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
-                renderInput={(props) => <TextField {...props} size="small"/>}
+                renderInput={(props) => <TextField {...props} size="small" />}
                 label="Start Date and Time"
                 value={
                   formValues.startedAt ? dayjs(formValues.startedAt) : null
@@ -86,31 +101,33 @@ const CreateEvent = () => {
                 inputFormat="MMMM DD, YYYY hh:mm A"
                 className="w-full"
                 sx={{ width: "100%" }}
-                 size="small"
+                size="small"
               />
             </LocalizationProvider>
           </Grid>
           <Grid item xs={6}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DateTimePicker
-                renderInput={(props) => <TextField {...props} size="small"/>}
+                renderInput={(props) => <TextField {...props} size="small" />}
                 label="End Date and Time"
                 value={formValues.endsAt ? dayjs(formValues.endsAt) : null}
                 onChange={(newValue) => handleDateChange(newValue, "endsAt")}
                 inputFormat="MMMM DD, YYYY hh:mm A"
                 className="w-full"
-                sx={{ width: "100%"}}
-                 
+                sx={{ width: "100%" }}
               />
             </LocalizationProvider>
           </Grid>
         </Grid>
-<div className="flex justify-center">
-        <Button
-        className="text-justify"
-        variant="contained" color="primary" type="submit">
-          Create Event
-        </Button>
+        <div className="flex justify-center">
+          <Button
+            className="text-justify"
+            variant="contained"
+            color="primary"
+            type="submit"
+          >
+            Create Event
+          </Button>
         </div>
       </form>
     </div>
