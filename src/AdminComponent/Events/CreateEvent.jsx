@@ -6,11 +6,11 @@ import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { createEventAction } from "../../State/Restaurant/Action";
 const initialValues = {
-  image: "",
-  location: "",
-  name: "",
-  startedAt: null,
-  endsAt: null,
+    image: "",
+    location: "",
+    name: "",
+    startedAt: null,
+    endsAt: null,
 };
 
 const CreateEvent = () => {
@@ -26,13 +26,12 @@ const CreateEvent = () => {
     dispatch(
       createEventAction({
         data: formValues,
-        restaurantId: restaurant.usersRestaurant?.id,
       jwt
       
       })
     );
     console.log(formValues);
-    setFormValues(initialValues);
+    // setFormValues(initialValues);
   };
   const handleFormChange = (e) => {
     setFormValues({
@@ -41,7 +40,8 @@ const CreateEvent = () => {
     });
   };
   const handleDateChange = (date, dateType) => {
-    const formattedDate = dayjs(date).format("MMMM DD, YYYY hh:mm A");
+   
+    const formattedDate = dayjs(date).format("YYYY-MM-DD[T]HH:mm:ss");
     setFormValues({
       ...formValues,
       [dateType]: formattedDate,

@@ -12,9 +12,8 @@ import AddLocationAltIcon from "@mui/icons-material/AddLocationAlt";
 import { CartItem } from "./CartItem";
 import { AddressCard } from "./AddressCard";
 import {  Field, Form, Formik } from "formik";
-import * as Yup from "yup";
 import { useDispatch, useSelector } from "react-redux";
-import { createOrder, getUsersOrders } from "../../State/Order/Action";
+import { createOrder } from "../../State/Order/Action";
 export const style = {
   position: "absolute",
   top: "50%",
@@ -33,13 +32,6 @@ const initialValues = {
   pincode: "",
   city: "",
 };
-// const validationSchema = Yup.object.shape({
-//   streetAddress: Yup.string().required("Street address is required"),
-//   state: Yup.string().required("State is required"),
-//   pincode: Yup.string().required("pincode is required"),
-//   city: Yup.string().required("City is required"),
-// });
-const items = [1, 1];
 const Cart = () => {
   const createOrderUsingSelectAddress = () => {};
   const handleOpenAddressModal = () => setOpen(true);
@@ -142,7 +134,6 @@ const Cart = () => {
         <Box sx={style}>
           <Formik
             initialValues={initialValues}
-            // validationSchema={validationSchema}
             onSubmit={handleSubmit}
           >
             <Form>
@@ -154,12 +145,6 @@ const Cart = () => {
                   label="Street Address"
                   fullWidth
                   variant="outlined"
-                  //   error={!ErrorMessage("streetAddress")}
-                  //   helperText={
-                  //     <ErrorMessage>
-                  //       {(msg) => <span className="text-red-500">{msg}</span>}
-                  //     </ErrorMessage>
-                  //   }
                 ></Field>
               </Grid>
               <Grid item xs={12}>
@@ -169,12 +154,7 @@ const Cart = () => {
                   label="State"
                   fullWidth
                   variant="outlined"
-                  //   error={!ErrorMessage("streetAddress")}
-                  //   helperText={
-                  //     <ErrorMessage>
-                  //       {(msg) => <span className="text-red-500">{msg}</span>}
-                  //     </ErrorMessage>
-                  //   }
+                
                 ></Field>
               </Grid>
               <Grid item xs={12}>
@@ -184,12 +164,7 @@ const Cart = () => {
                   label="City"
                   fullWidth
                   variant="outlined"
-                  //   error={!ErrorMessage("streetAddress")}
-                  //   helperText={
-                  //     <ErrorMessage>
-                  //       {(msg) => <span className="text-red-500">{msg}</span>}
-                  //     </ErrorMessage>
-                  //   }
+                
                 ></Field>
               </Grid>
               <Grid item xs={12}>
@@ -199,12 +174,7 @@ const Cart = () => {
                   label="Pincode"
                   fullWidth
                   variant="outlined"
-                  //   error={!ErrorMessage("streetAddress")}
-                  //   helperText={
-                  //     <ErrorMessage>
-                  //       {(msg) => <span className="text-red-500">{msg}</span>}
-                  //     </ErrorMessage>
-                  //   }
+                  
                 ></Field>
               </Grid>
               <Grid item xs={12}>

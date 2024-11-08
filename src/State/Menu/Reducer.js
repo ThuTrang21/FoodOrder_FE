@@ -41,11 +41,10 @@ const menuItemReducer = (state = initialState, action) => {
                 )
             };
         case actionTypes.UPDATE_MENU_ITEMS_AVAILABILITY_SUCCESS:
-            console.log("Update items id: ", action.payload.id)
             return {
                 ...state,
                 loading: false,
-                menuItems: state.menuItems.filter(
+                menuItems: state.menuItems.map(
                     (item) => item.id === action.payload.id ? action.payload : item
                 )
             };

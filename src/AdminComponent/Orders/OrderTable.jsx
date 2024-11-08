@@ -25,10 +25,10 @@ const orderStatus=[
   {label:"Out For Delivery",value:"OUT_FOR_DELIVERY"},
   {label:"Delivered",value:"DELIVERED"}
 ]
-export const OrderTable = () => {
+export const OrderTable = ({ filterValue }) => {
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
-  const { restaurant, restaurantOrder, ingredients, menu } = useSelector(
+  const { restaurant, restaurantOrder} = useSelector(
     (store) => store
   );
   const [selectedOrderId, setSelectedOrderId] = useState(null);
@@ -60,6 +60,12 @@ const handleUpdateOrder=(orderStatus)=>{
   handleClose();
 }
 
+const filteredOrders = restaurantOrder.orders.filter((item) =>
+  filterValue === "ALL" || filterValue === undefined
+    ? true
+    : item.orderStatus === filterValue
+);
+
   return (
     <Box>
       <Card className="mt-1">
@@ -82,7 +88,7 @@ const handleUpdateOrder=(orderStatus)=>{
               </TableRow>
             </TableHead>
             <TableBody>
-              {restaurantOrder.orders.map((item) => (
+              {filteredOrders.map((item) => (
                 <TableRow
                   key={item.name}
                   sx={{ "&:last-child td, &:last-child th": { border: 0 } }}

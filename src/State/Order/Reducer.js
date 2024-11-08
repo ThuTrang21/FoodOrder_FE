@@ -21,13 +21,7 @@ export const orderReducer = (state = initialState, { type, payload }) => {
                 error: null,
                 orders: payload
             };
-        // case GET_USERS_NOTIFICATION_SUCCESS:
-        //     return {
-        //         ...state,
-        //         loading: false,
-        //         error: null,
-        //         notifications: payload
-        //     };
+      
             case GET_USERS_ORDERS_FAILURE:
                 return{
                     ...state,

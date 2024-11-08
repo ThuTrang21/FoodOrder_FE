@@ -26,7 +26,6 @@ const foodTypes = [
   { label: "Seasonal", value: "seasonal" },
 ];
 
-const menu = [1, 1, 1, 1, 1, 1, 1];
 export default function RestaurantDetail() {
   const [foodType, setFoodType] = useState("all");
   const navigate = useNavigate();
@@ -45,16 +44,14 @@ export default function RestaurantDetail() {
     setSelectedCategory(value);
     console.log(e.target.value, e.target.name, value);
   };
-  console.log("restaurant: ", restaurant);
 
   useEffect(() => {
-    dispatch(getRestaurantById({ jwt, restaurantId: id }));
-    dispatch(getRestaurantsCategory({ jwt, restaurantId: id }));
+    dispatch(getRestaurantById({restaurantId: id }));
+    dispatch(getRestaurantsCategory({ restaurantId: id }));
   }, []);
   useEffect(() => {
     dispatch(
       getMenuItemsByRestaurantId({
-        jwt,
         restaurantId: id,
         vegetarian: foodType === "vegetarian" ? true : null,
         nonveg: foodType === "non_vegetarian" ? true : null,

@@ -33,10 +33,7 @@ export const getMenuItemsByRestaurantId = (reqData) => {
               nonveg: reqData.nonveg || undefined,
               seasonal: reqData.seasonal || undefined,
               food_category: reqData.foodCategory || undefined,
-            },
-            headers: {
-              Authorization: `Bearer ${reqData.jwt}`,
-            },
+            }
           }
         );
   
@@ -92,7 +89,9 @@ export const searchMenuItem = ({keyword,jwt}) => {
 
 
 export const updateMenuItemsAvailability = ({foodId,jwt}) => {
+    
     return async (dispatch) => {
+        
         dispatch({ type: UPDATE_MENU_ITEMS_AVAILABILITY_REQUEST });
         try {
             const { data } = await api.put(`/api/admin/food/${foodId}`,{}, {

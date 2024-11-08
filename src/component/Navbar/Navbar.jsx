@@ -26,7 +26,7 @@ export default function Navbar() {
           <li
             onClick={() => navigate("/")}
             className="logo font-semibold text-gray-300 text-2xl"
-            style={{ listStyle: "none" }}
+            style={{ listStyle: "none", fontFamily: "Playfair Display" }}
           >
             Trang Food
           </li>

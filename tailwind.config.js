@@ -7,5 +7,14 @@ module.exports = {
     extend: {},
   },
   plugins: [],
+  theme: {
+    extend: {
+      fontFamily: {
+        dancing: ['Dancing Script', 'cursive'],
+        greatVibes: ['Great Vibes', 'cursive'],
+        pacifico: ['Pacifico', 'cursive'],
+        
+      },
+    },
+  },
 }
-

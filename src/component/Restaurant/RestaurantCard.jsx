@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { addToFavorite } from "../../State/Authentidation/Action";
 import { isPresentInFavorites } from "../../config/logic";
 export default function RestaurantCard({ item }) {
+  const displayDes = item.description.length > 50 ? item.description.slice(0, 50) + "..." : item.description;
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const jwt = localStorage.getItem("jwt");
@@ -42,7 +43,7 @@ export default function RestaurantCard({ item }) {
       <div className="p-4 textPart lg:flex w-full justify-between">
         <div className="space-y-1">
           <p  onClick={handleNavigateToRestaurant} className="font-semibold text-lg cursor-pointer">{item.name}</p>
-          <p className="text-gray-500 text-sm">{item.description}</p>
+          <p className="text-gray-500 text-sm">{displayDes}</p>
         </div>
         <div>
           <IconButton onClick={handleAddToFavorite}>

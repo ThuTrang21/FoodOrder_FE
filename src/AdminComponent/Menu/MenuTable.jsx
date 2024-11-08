@@ -1,6 +1,7 @@
 import {
   Avatar,
   Box,
+  Button,
   Card,
   CardHeader,
   Chip,
@@ -21,6 +22,7 @@ import { useDispatch, useSelector } from "react-redux";
 import {
   deleteFoodAction,
   getMenuItemsByRestaurantId,
+  updateMenuItemsAvailability,
 } from "../../State/Menu/Action";
 
 export const MenuTable = () => {
@@ -47,6 +49,10 @@ export const MenuTable = () => {
 
     console.log("menu: ", menu);
   }, []);
+
+  const handleUpdateStoke = (id) => {
+    dispatch(updateMenuItemsAvailability({ foodId: id, jwt }));
+  };
 
   return (
     <Box>
@@ -92,7 +98,11 @@ export const MenuTable = () => {
                   </TableCell>
                   <TableCell align="right">${item.price}</TableCell>
                   <TableCell align="right">
-                    {item.available ? "in_stoke" : "out_of_stoke"}
+                  {
+                      <Button onClick={() => handleUpdateStoke(item.id)}>
+                        {item.available? "in_stoke" : "out_of_stoke"}
+                      </Button>
+                    }
                   </TableCell>
                   <TableCell align="right">
                     <IconButton onClick={() => handleDeleteFood(item.id)}>
